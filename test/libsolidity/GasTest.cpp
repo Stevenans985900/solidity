@@ -101,6 +101,7 @@ void GasTest::printUpdatedExpectations(ostream& _stream, string const& _linePref
 TestCase::TestResult GasTest::run(ostream& _stream, string const& _linePrefix, bool _formatted)
 {
 	string const versionPragma = "pragma solidity >=0.0;\n";
+	string const license = "// SPDX-License-Identifier: GPL-3.0\n";
 	compiler().reset();
 	// Prerelease CBOR metadata varies in size due to changing version numbers and build dates.
 	// This leads to volatile creation cost estimates. Therefore we force the compiler to
@@ -114,7 +115,7 @@ TestCase::TestResult GasTest::run(ostream& _stream, string const& _linePrefix, b
 	}
 	settings.expectedExecutionsPerDeployment = m_optimiseRuns;
 	compiler().setOptimiserSettings(settings);
-	compiler().setSources({{"", versionPragma + m_source}});
+	compiler().setSources({{"", versionPragma + license + m_source}});
 
 	if (!compiler().parseAndAnalyze() || !compiler().compile())
 	{
